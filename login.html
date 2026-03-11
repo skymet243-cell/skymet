@@ -179,7 +179,13 @@ document.addEventListener('DOMContentLoaded', function(){
         if(role === 'agent'){
             // proceed to dashboard
             window.location.href = 'dashboard_operation.html';
-        } else {
+        }else if(role === 'pilot'){
+            // pilots currently have no dashboard, show alert
+           window.location.href = 'flight_dossier.html';
+        }else if(role === 'admin'){
+            // ATC controllers currently have no dashboard, show alert
+            window.location.href = 'admin_stats.html';
+        }else {
             alert('Rôle non disponible pour l’instant.');
         }
     });
