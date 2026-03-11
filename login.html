@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SKYMET — Connexion sécurisée</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0048ad",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1723",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark min-h-screen flex flex-col">
+<div class="relative flex min-h-screen w-full flex-col bg-slate-900">
+<!-- Background with subtle clouds overlay -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/40 to-slate-900 z-10"></div>
+<img alt="Ciel en haute altitude avec nuages doux" class="w-full h-full object-cover" data-alt="Ciel en haute altitude avec nuages doux" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6b1h_UClhXbcE-HuNPt-guyOL7-M8O9REHL802Nnx-ChKVSQ3wldIJnX1NlGUFK7mPHlXE_MGeqC91bndlZEZjqxX7uffFHEBswi9RZ3MggRlNuOlETn9k3pVkdqdWgWQ7VnTarfqby9smUcIFlQnTkTaamCsXrXOKMFoUXV1PI0fuq9TEri-DuEAiK7SoDH5N1gmwibaV9Gi8mTbZ8UepR_dLKQ563JZidbA8EaAaI6LwnHGi0hwUGR8ArnUa1bxO0T-vAuWgrI"/>
+</div>
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 lg:px-12 bg-transparent">
+<div class="flex items-center gap-3">
+<div class="bg-white/10 backdrop-blur-md p-2 rounded-lg border border-white/20">
+<span class="material-symbols-outlined text-white text-3xl">flight_takeoff</span>
+</div>
+<h2 class="text-white text-2xl font-black tracking-tighter">SKYMET</h2>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-white/80 hover:text-white text-sm font-medium transition-colors" href="#">Support aéronautique</a>
+<a class="text-white/80 hover:text-white text-sm font-medium transition-colors" href="#">Documentation</a>
+<button class="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg border border-white/20 transition-all text-sm font-semibold">
+<span class="material-symbols-outlined text-sm">security</span>
+                    État du système : Opérationnel
+                </button>
+</div>
+<button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden text-white">
+    <span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</header>
+<!-- Main Login Section -->
+<main class="relative z-20 flex-1 flex flex-col items-center justify-center px-4" style="padding-top:120px;">
+<div class="w-full max-w-md">
+<!-- Glassmorphism Card -->
+<div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl flex flex-col gap-6">
+<div class="text-center space-y-2">
+<h1 class="text-white text-3xl font-bold tracking-tight">Accès sécurisé</h1>
+<p class="text-white/70 text-sm font-medium">Plateforme de météorologie aéronautique — RDC</p>
+</div>
+<form class="flex flex-col gap-5" id="login-form">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="text-white/90 text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">mail</span> Courriel professionnel
+                            </label>
+<input class="w-full bg-white/5 border border-white/20 rounded-lg h-12 px-4 text-white placeholder:text-white/40 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="agent.name@skymet.cd" type="email"/>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="text-white/90 text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lock</span> Mot de passe
+                                </label>
+<a class="text-xs text-primary/40 hover:text-white transition-colors" href="#">Mot de passe oublié ?</a>
+</div>
+<input class="w-full bg-white/5 border border-white/20 rounded-lg h-12 px-4 text-white placeholder:text-white/40 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="••••••••" type="password"/>
+</div>
+<!-- Role Selection -->
+<div class="space-y-2">
+<label class="text-white/90 text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">badge</span> Rôle opérationnel
+                            </label>
+<div class="relative">
+<select class="w-full bg-white/5 border border-white/20 rounded-lg h-12 px-4 text-white appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer">
+<option class="text-slate-900" value="agent">Agent météorologique (METAR/SPECI)</option>
+<option class="text-slate-900" value="pilot">Équipage / Pilote</option>
+<option class="text-slate-900" value="operator">Contrôleur ATC</option>
+<option class="text-slate-900" value="admin">Administrateur système</option>
+</select>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+<span class="material-symbols-outlined text-white/50">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold h-12 rounded-lg transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 group" type="submit">
+                            S'authentifier
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<div class="flex items-center justify-center gap-2 border-t border-white/10 pt-6">
+<span class="material-symbols-outlined text-primary/40 text-sm">info</span>
+<p class="text-white/40 text-xs text-center">
+                            Personnel autorisé uniquement. Accès surveillé par l'Autorité nationale de l'aviation.
+                        </p>
+</div>
+</div>
+<!-- DRC Airports Status Badges -->
+<div class="mt-8 flex justify-center gap-4 flex-wrap opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-white/5">
+<span class="w-2 h-2 rounded-full bg-green-400"></span>
+<span class="text-[10px] font-bold text-white uppercase tracking-wider">FIH - Kinshasa</span>
+</div>
+<div class="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-white/5">
+<span class="w-2 h-2 rounded-full bg-green-400"></span>
+<span class="text-[10px] font-bold text-white uppercase tracking-wider">FBM - Lubumbashi</span>
+</div>
+<div class="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-white/5">
+<span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+<span class="text-[10px] font-bold text-white uppercase tracking-wider">GOM - Goma</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="relative z-20 p-8 text-center">
+<p class="text-white/30 text-xs">
+                © 2026 SKYMET — Plateforme de météorologie aéronautique. Service de l'Autorité de l'aviation de la RDC.
+            </p>
+</footer>
+</div>
+<!-- Mobile menu (hidden on md+) -->
+<div id="mobile-menu" class="md:hidden hidden fixed top-[64px] left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-sm border-t border-white/5">
+    <nav class="flex flex-col px-6 py-4 gap-3">
+        <a class="text-white/90 hover:text-white text-sm font-medium" href="#">Support aéronautique</a>
+        <a class="text-white/90 hover:text-white text-sm font-medium" href="#">Documentation</a>
+        <a class="mt-2 inline-flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold" href="#">Connexion sécurisée</a>
+    </nav>
+</div>
+<script>
+// Mobile menu toggle for login page
+(function(){
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    if(!btn || !menu) return;
+    btn.addEventListener('click', function(){
+        const wasHidden = menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(!wasHidden));
+    });
+    // ensure menu closes when resizing to desktop
+    window.addEventListener('resize', function(){
+        if(window.innerWidth >= 768 && !menu.classList.contains('hidden')){
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded','false');
+        }
+    });
+})();
+</script>
+<script>
+// simple login redirect logic (no real authentication)
+document.addEventListener('DOMContentLoaded', function(){
+    var form = document.getElementById('login-form');
+    if(!form) return;
+    form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var role = this.querySelector('select').value;
+        console.log('submit clicked, role=', role);
+        if(role === 'agent'){
+            // proceed to dashboard
+            window.location.href = 'dashboard_operation.html';
+        } else {
+            alert('Rôle non disponible pour l’instant.');
+        }
+    });
+});
+</script>
+</body></html>

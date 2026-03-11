@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Superposition carte météo nationale RDC — SKYMET</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d6cf2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .status-vfr { color: #10b981; }
+        .status-mvfr { color: #3b82f6; }
+        .status-ifr { color: #ef4444; }
+        .status-lifr { color: #a855f7; }
+        
+        /* Custom scrollbar for sidebar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+
+
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 backdrop-blur-sm px-6 py-3 lg:px-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">cyclone</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight uppercase">SKYMET DRC</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="dashboard_operation.html">Tableau de Bord</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="flight_briefing_request_list.html">Demande de Briefing</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="calculator_tools.html">Outils de Calcul</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="weather_ope_archive.html">Archives</a>
+<div class="flex items-center gap-2">
+    <a class="text-primary text-sm font-semibold border-b-2 border-primary py-1" href="national_map_overlay.html">Carte Méteo</a>
+    <select class="h-8 text-xs border border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+        <option value="radar">Radar</option>
+        <option value="satellite">Satellite</option>
+        <option value="temp">Température</option>
+    </select>
+</div>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+    <button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-2">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+<label class="hidden sm:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+<div class="text-slate-500 flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input w-full border-none bg-transparent focus:ring-0 text-sm placeholder:text-slate-500" placeholder="Rechercher des vols..." value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="flex items-center gap-3 ml-2 pl-4 border-l border-slate-200 dark:border-slate-800">
+<div class="text-right hidden lg:block">
+<p class="text-xs font-bold text-slate-900 dark:text-slate-100">N'djili Ops</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-wider">FIH/FZAA</p>
+</div>
+<div class="bg-primary/10 rounded-full p-1 border border-primary/20">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="User profile avatar icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAxnIn4G8TAxb4Dsldelw4KGDCza8munvSHZE2Go_UaiKTAO6Bdnc1ipbhNw0fD1ABx7edxFfwr-ovoYURXwJhjWj_H-79cg17jjSN5SoILfEwBNe751f3ttv1OyJ4sd1DtSUlaJBLjlHVk5oEixnPigr1GvcRg34cNi7ZBNvGiYOwiuRV4b1qfHX8_STvSezATxN0y7rur60VMQ8VpYrS-2OoZLUeqLnOckBYa7I2AAKNpyKzvXRGe0W1EaAUNtshFa3NfaWxusTw");'></div>
+</div>
+</div>
+</div>
+</header>
+
+<!-- Mobile menu (hidden on desktop) -->
+<div id="mobile-menu" class="md:hidden hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div class="px-4 py-3">
+        <nav class="flex flex-col gap-2">
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="dashboard_operation.html">Tableau de Bord</a>
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="flight_briefing_request_list.html">Demande de Briefing</a>
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="calculator_tools.html">Outils de Calcul</a>
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="weather_ope_archive.html">Archives</a>
+            <a class="block text-primary font-bold px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="national_map_overlay.html">Carte National</a>
+            <select class="mt-2 w-full h-10 text-sm border border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                <option value="radar">Radar</option>
+                <option value="satellite">Satellite</option>
+                <option value="temp">Température</option>
+            </select>
+        </nav>
+    </div>
+</div>
+
+
+<div class="flex-1 flex overflow-hidden pt-20 md:pt-13">
+<!-- Left Sidebar: Station List -->
+<aside class="w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col z-40">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center mb-1">
+<h1 class="text-slate-900 dark:text-white text-base font-bold">Principaux aéroports RDC</h1>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">En direct</span>
+</div>
+<p class="text-slate-500 text-xs font-normal">18 stations actives • Mise à jour il y a 2 min</p>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1">
+<!-- Kinshasa -->
+<div class="flex items-center gap-3 p-3 rounded-xl bg-primary/5 border border-primary/10 cursor-pointer">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined status-vfr text-[24px]">wb_sunny</span>
+<span class="text-[10px] font-bold text-emerald-600 mt-0.5">VFR</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-slate-900 dark:text-white text-sm font-bold">Kinshasa (FIH)</p>
+<p class="text-slate-900 dark:text-white text-sm font-bold">28°C</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-slate-500 text-xs">FZAA • N'Djili Intl</p>
+<p class="text-slate-500 text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] rotate-45">navigation</span> 260/05kt
+                            </p>
+</div>
+</div>
+</div>
+<!-- Lubumbashi -->
+<div class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer group transition-all">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined status-vfr text-[24px]">wb_sunny</span>
+<span class="text-[10px] font-bold text-emerald-600 mt-0.5">VFR</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-slate-900 dark:text-white text-sm font-medium">Lubumbashi (FBM)</p>
+<p class="text-slate-900 dark:text-white text-sm font-medium">24°C</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-slate-500 text-xs">FZQA • Luano</p>
+<p class="text-slate-500 text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] rotate-[120deg]">navigation</span> 120/08kt
+                            </p>
+</div>
+</div>
+</div>
+<!-- Goma -->
+<div class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer group transition-all">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined status-mvfr text-[24px]">cloud</span>
+<span class="text-[10px] font-bold text-blue-600 mt-0.5">MVFR</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-slate-900 dark:text-white text-sm font-medium">Goma (GOM)</p>
+<p class="text-slate-900 dark:text-white text-sm font-medium">19°C</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-slate-500 text-xs">FZNA • Goma Intl</p>
+<p class="text-slate-500 text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">question_mark</span> VRB/02kt
+                            </p>
+</div>
+</div>
+</div>
+<!-- Kisangani -->
+<div class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer group transition-all">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined status-ifr text-[24px]">rainy</span>
+<span class="text-[10px] font-bold text-red-600 mt-0.5">IFR</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-slate-900 dark:text-white text-sm font-medium">Kisangani (FKI)</p>
+<p class="text-slate-900 dark:text-white text-sm font-medium">26°C</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-slate-500 text-xs">FZIC • Bangoka</p>
+<p class="text-slate-500 text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">block</span> Calm
+                            </p>
+</div>
+</div>
+</div>
+<!-- Bukavu -->
+<div class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer group transition-all">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined status-lifr text-[24px]">foggy</span>
+<span class="text-[10px] font-bold text-purple-600 mt-0.5">LIFR</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<p class="text-slate-900 dark:text-white text-sm font-medium">Bukavu (BKY)</p>
+<p class="text-slate-900 dark:text-white text-sm font-medium">17°C</p>
+</div>
+<div class="flex justify-between items-center mt-1">
+<p class="text-slate-500 text-xs">FZMA • Kavumu</p>
+<p class="text-slate-500 text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] rotate-[180deg]">navigation</span> 180/04kt
+                            </p>
+</div>
+</div>
+</div>
+<!-- More airports placeholders -->
+<div class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer group opacity-60">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-slate-400 text-[24px]">cloud_queue</span>
+<span class="text-[10px] font-bold text-slate-400 mt-0.5">VFR</span>
+</div>
+<div class="flex-1">
+<p class="text-slate-900 dark:text-white text-sm font-medium">Kananga (KGA)</p>
+<p class="text-slate-500 text-xs">FZUA • Kananga Intl</p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/50">
+<button class="w-full flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-white dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-600 text-sm font-bold shadow-sm hover:bg-slate-50 transition-all">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+                    Actualiser les données
+                </button>
+</div>
+</aside>
+<!-- Main Content: Interactive Map Area -->
+<main class="flex-1 relative bg-slate-100 dark:bg-slate-950 overflow-hidden">
+<!-- Map Layer (Abstract background replacement for a map) -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Carte météo nationale de la République démocratique du Congo avec topographie" data-location="République démocratique du Congo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTuyxZ2tXy7eNWqyH60_-iGvIFVh3TRnOfLy5OECzXP2zT4mdymN2hDENLUiDtWCox6GaaIc50naR_ZBX2A0bxk87To0pEkRvze29eWaLjj8nzFqSvZw5beI2PasZRutUGnLeQ0rMc81qYsIgyPT0c__vBwYPuIBhhGgavwwvFWzHhtlTROKzJ7zBeHO35t82iutsTq7i0KgE2c-Yrr7lFoSza35lsnhyK-75LEwAwJN_kts262nin-NSInHlVfw_y-C3NrDAMuWg')">
+<!-- Map Markers Layer -->
+<div class="relative w-full h-full">
+<!-- Marker: Kinshasa -->
+<div class="absolute top-[60%] left-[15%] group">
+<div class="flex flex-col items-center">
+<div class="bg-emerald-500 text-white p-1 rounded-full shadow-lg border-2 border-white animate-pulse">
+<span class="material-symbols-outlined text-[16px]">wb_sunny</span>
+</div>
+<div class="mt-1 px-2 py-0.5 bg-white/90 dark:bg-slate-900/90 rounded text-[10px] font-bold text-slate-800 dark:text-white shadow-sm border border-slate-200 dark:border-slate-700">
+                                FIH
+                            </div>
+</div>
+</div>
+<!-- Marker: Lubumbashi -->
+<div class="absolute top-[85%] left-[65%] group">
+<div class="flex flex-col items-center">
+<div class="bg-emerald-500 text-white p-1 rounded-full shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-[16px]">wb_sunny</span>
+</div>
+<div class="mt-1 px-2 py-0.5 bg-white/90 dark:bg-slate-900/90 rounded text-[10px] font-bold text-slate-800 dark:text-white shadow-sm border border-slate-200 dark:border-slate-700">
+                                FBM
+                            </div>
+</div>
+</div>
+<!-- Marker: Goma -->
+<div class="absolute top-[45%] left-[88%] group">
+<div class="flex flex-col items-center">
+<div class="bg-blue-500 text-white p-1 rounded-full shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-[16px]">cloud</span>
+</div>
+<div class="mt-1 px-2 py-0.5 bg-white/90 dark:bg-slate-900/90 rounded text-[10px] font-bold text-slate-800 dark:text-white shadow-sm border border-slate-200 dark:border-slate-700">
+                                GOM
+                            </div>
+</div>
+</div>
+<!-- Marker: Kisangani -->
+<div class="absolute top-[30%] left-[55%] group">
+<!-- Popup Active State Simulation -->
+<div class="flex flex-col items-center">
+<div class="bg-red-500 text-white p-1 rounded-full shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-[16px]">rainy</span>
+</div>
+<div class="mt-1 px-2 py-0.5 bg-white/90 dark:bg-slate-900/90 rounded text-[10px] font-bold text-slate-800 dark:text-white shadow-sm border border-slate-200 dark:border-slate-700">
+                                FKI
+                            </div>
+<!-- Information Popup -->
+<div class="absolute bottom-full mb-3 w-64 bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
+<div class="bg-red-500 px-4 py-2 flex justify-between items-center">
+<span class="text-white text-xs font-bold uppercase tracking-wider">Alerte IFR</span>
+<span class="text-white text-[10px]">14:20 UTC</span>
+</div>
+<div class="p-4">
+<h4 class="text-slate-900 dark:text-white font-bold text-sm">FZIC • Bangoka Intl</h4>
+<p class="text-slate-500 text-[10px] mb-3">Kisangani, Tshopo</p>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase">Plafond</p>
+<p class="text-xs font-bold text-red-500">OVC 008</p>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-lg">
+<p class="text-[10px] text-slate-400 uppercase">Visibilité</p>
+<p class="text-xs font-bold text-red-500">1,2 KM</p>
+</div>
+</div>
+<div class="border-t border-slate-100 dark:border-slate-800 pt-3">
+<p class="text-[10px] text-slate-400 uppercase mb-1">METAR brut</p>
+<p class="text-[9px] font-mono leading-tight bg-slate-50 dark:bg-slate-800 p-1.5 rounded text-slate-700 dark:text-slate-300">
+                                            FZIC 241400Z 00000KT 1200 +TSRA OVC008 FEW015CB 26/24 Q1012
+                                        </p>
+</div>
+<button class="w-full mt-4 bg-primary text-white text-xs font-bold py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                        Ouvrir le briefing complet
+                                    </button>
+</div>
+<div class="absolute left-1/2 -bottom-2 -ml-2 w-4 h-4 bg-white dark:bg-slate-900 transform rotate-45 border-r border-b border-slate-200 dark:border-slate-700"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Controls (Top Right) -->
+<div class="absolute top-6 right-6 flex flex-col gap-3">
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+<button class="p-2.5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-800">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="p-2.5 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<button class="bg-white dark:bg-slate-900 p-2.5 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="bg-white dark:bg-slate-900 p-2.5 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">layers</span>
+</button>
+</div>
+<!-- Legend Overlay (Bottom Right) -->
+<div class="absolute bottom-6 right-6 bg-white/95 dark:bg-slate-900/95 p-4 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-xs backdrop-blur-sm">
+<h5 class="text-xs font-bold text-slate-900 dark:text-white mb-3">Weather Conditions</h5>
+<div class="grid grid-cols-2 gap-x-4 gap-y-2">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-emerald-500"></div>
+<span class="text-[10px] font-medium text-slate-600 dark:text-slate-400">VFR</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-blue-500"></div>
+<span class="text-[10px] font-medium text-slate-600 dark:text-slate-400">MVFR</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-red-500"></div>
+<span class="text-[10px] font-medium text-slate-600 dark:text-slate-400">IFR</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-purple-500"></div>
+<span class="text-[10px] font-medium text-slate-600 dark:text-slate-400">LIFR</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between text-[10px]">
+<span class="text-slate-500">SIGMET Active</span>
+<span class="text-orange-500 font-bold">2 Regions</span>
+</div>
+</div>
+</div>
+<!-- Floating Search/Context (Top Left) -->
+<div class="absolute top-6 left-6 flex items-center gap-2">
+<div class="bg-white dark:bg-slate-900 h-10 px-4 flex items-center rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-primary text-[20px] mr-2">public</span>
+<span class="text-sm font-bold text-slate-900 dark:text-white">National Overview</span>
+<span class="material-symbols-outlined text-slate-400 ml-2">expand_more</span>
+</div>
+</div>
+<!-- Horizontal Overview Slider (Bottom Center) -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4 overflow-x-auto pb-2 px-6 max-w-[50vw]">
+<div class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 flex items-center gap-4 min-w-[280px]">
+<div class="size-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined">wb_sunny</span>
+</div>
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider">Current Obs (FIH)</p>
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-none">VFR Conditions</p>
+<p class="text-slate-500 text-[10px] mt-1 truncate max-w-[180px]">26005KT 9999 FEW020 28/22</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 flex items-center gap-4 min-w-[280px] opacity-80">
+<div class="size-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">cloud</span>
+</div>
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider">Current Obs (FBM)</p>
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-none">Optimal Visibility</p>
+<p class="text-slate-500 text-[10px] mt-1 truncate max-w-[180px]">12008KT 9999 SKC 24/18</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    if(!btn || !menu) return;
+    btn.addEventListener('click', ()=>{
+        const hidden = menu.classList.toggle('hidden');
+        const expanded = (!hidden).toString();
+        btn.setAttribute('aria-expanded', expanded);
+    });
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 768 && !menu.classList.contains('hidden')){
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
+</body></html>

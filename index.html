@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SKYMET — Page publique d'accueil et d'information</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0047AB",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a0a0f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex flex-col w-full overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 w-full border-b border-slate-200 dark:border-primary/20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 lg:px-20 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">flight_takeoff</span>
+</div>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-black tracking-tight uppercase">SKYMET</h2>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Accueil</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-400" href="#">Centres météo</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-400" href="#">Autorités</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-400" href="#">Alertes publiques</a>
+</nav>
+<div class="flex items-center gap-4">
+<a class="hidden sm:flex items-center justify-center rounded-lg h-10 px-6 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-all" href="login.html">
+<span class="material-symbols-outlined mr-2 text-lg">lock</span>
+                        Connexion sécurisée
+                    </a>
+<button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+<!-- Mobile menu (hidden by default, shown when toggled) -->
+<div id="mobile-menu" class="md:hidden hidden bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
+    <nav class="flex flex-col px-6 py-4 gap-3">
+        <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Accueil</a>
+        <a class="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-400" href="#">Centres météo</a>
+        <a class="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-400" href="#">Autorités</a>
+        <a class="text-sm font-semibold hover:text-primary transition-colors text-slate-600 dark:text-slate-400" href="#">Alertes publiques</a>
+        <a class="mt-2 inline-flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-all" href="login.html">Connexion sécurisée</a>
+    </nav>
+</div>
+</div>
+</header>
+<!-- Spacer to compensate for fixed header height so content scrolls underneath -->
+<div class="h-16 md:h-20" aria-hidden="true"></div>
+<!-- Hero Section -->
+<main class="w-full">
+<div class="relative min-h-[600px] flex flex-col items-center justify-center px-4 py-20 text-center overflow-hidden">
+<!-- Background Image Container -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/60 to-background-dark z-10"></div>
+<img alt="Commercial airplane flying through clear blue sky above clouds" class="w-full h-full object-cover" data-alt="Commercial airplane flying through clear blue sky above clouds" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATTn87pDS9HaFU1vdaJYYOCSJacd3KSKHiB-Hs63YuFTcrmu12HHkv2SlcWcDwIsuInepjri4mQBA9TUZgVkTDTNqBb1QGR0gM4XY9plsY_vuh77sYy8jXCZaYaNUGv6MKIhYyv_Av1YycS20NChjai9HMYForeuUW6-mYKJ6MEkhzDyTLL89P2lGvh_J6QGSD2ppS7uA7Vm5yaEfp4iLsbkGX0i1jv69Gy3j3nUk28tMacfuhpZwP4lJdbi6LtkWgLCGbrSdnOsI"/>
+</div>
+<!-- Hero Content -->
+<div class="relative z-20 max-w-4xl mx-auto space-y-8">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-sm">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="text-primary text-xs font-bold uppercase tracking-widest">Données aéronautiques en direct</span>
+</div>
+<h1 class="text-white text-5xl md:text-7xl font-black leading-tight tracking-tight">
+                        Système de Connaissance et de Transmission Météorologique
+                    </h1>
+<p class="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                        Météorologie aéronautique en temps réel pour Kinshasa et les principaux pôles de la RDC.
+                        Données précises garantissant sécurité et efficacité au cœur de l'Afrique.
+                    </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+<button class="w-full sm:w-auto min-w-[200px] rounded-xl h-14 px-8 bg-primary text-white text-base font-bold shadow-lg shadow-primary/25 hover:scale-105 transition-transform">
+                            Voir le résumé public
+                        </button>
+<button class="w-full sm:w-auto min-w-[200px] rounded-xl h-14 px-8 bg-slate-800/50 backdrop-blur-md border border-slate-700 text-white text-base font-bold hover:bg-slate-700 transition-colors">
+                            Accès autorités
+                        </button>
+</div>
+</div>
+</div>
+<!-- Public Weather Summary Section -->
+<section class="max-w-7xl mx-auto px-6 py-20">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div class="space-y-2">
+<h2 class="text-slate-900 dark:text-white text-3xl font-extrabold tracking-tight">Résumé météorologique public</h2>
+<p class="text-slate-500 dark:text-slate-400">Conditions actuelles sur les principaux centres d'aviation de la République démocratique du Congo.</p>
+</div>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined">schedule</span>
+<span>Dernière mise à jour : il y a 5 minutes</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Hub Card 1: Kinshasa -->
+<div class="group bg-white dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:border-primary transition-all">
+<div class="relative h-48">
+<img alt="Aerial view of Kinshasa city and Congo river" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Aerial view of Kinshasa city and Congo river" data-location="Kinshasa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6UbRdyLgiVkP3J741LQ7tj9yLAAzmrg0-e2WO8sZSJlEPokK_JUAN5M-MPSsKD5Uri_jW7GxUTEhILxqYGAMk5z_OpPQ_yykVdy5s02cBmMMTs0GBtdkl38frSEmxe1r8vzBnHuv0X4jLXkw9p95LAWCznALI2QRl4XJk9e8kKVHMh7ZBROe7VACEaFNX9RP-vHzwsCGH-1xrk_BVw-xBN8C9mKDnVdD3Hv-wjZyekXxYIfDsqhGzQ1aVLcQ8QAiq93GYQniaHCw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary px-3 py-1 rounded text-[10px] font-bold text-white uppercase tracking-wider">FIH / N'Djili</span>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold dark:text-white">Kinshasa</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Pôle principal</p>
+</div>
+<div class="text-right">
+<span class="text-3xl font-black text-primary">28°C</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">partly_cloudy_day</span>
+<span class="text-sm font-medium">Partiellement nuageux</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">air</span>
+<span class="text-sm font-medium">10 kt NO</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hub Card 2: Lubumbashi -->
+<div class="group bg-white dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:border-primary transition-all">
+<div class="relative h-48">
+<img alt="Clear blue sky over modern cityscape" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Clear blue sky over modern cityscape" data-location="Lubumbashi" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH3LM9oW8pGO2t4WXVPiT7OicBEwsvbb1OQXiSiZYoyvtCeX5nMSqod4VmadIroRZKsyBaffkxcaIqFJsttl1cNyTZIHY-MpzZFM-rZHuEwSjzbceMD1CvsGQbNjph6KVINfdYDurrQl5rpHcy4WLGAzbIiNs6AugphxCOzrzR_T5WsWD5S7MI0e3DWU7gPb0qKbJterW3r--8mdG-j-8tyKvws95f_j1Ii6Z6JpFcuqXssgBH1N9iv5mDhmgcuyoyTwviqFV4eaM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary px-3 py-1 rounded text-[10px] font-bold text-white uppercase tracking-wider">FBM / Luano</span>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold dark:text-white">Lubumbashi</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Pôle Sud</p>
+</div>
+<div class="text-right">
+<span class="text-3xl font-black text-primary">24°C</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">sunny</span>
+<span class="text-sm font-medium">Ciel dégagé</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">air</span>
+<span class="text-sm font-medium">5 kt S</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hub Card 3: Goma -->
+<div class="group bg-white dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:border-primary transition-all">
+<div class="relative h-48">
+<img alt="Rainy day with clouds over mountains" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Rainy day with clouds over mountains" data-location="Goma" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1jOOAN2VZ1SIWn8mP0Q2M_5wrKN8UxnlLB1o7-PvGtpupjXQyoQilAWBp-EPJyBwz7anuuSaTJAZMJbC2dMqy57gP2bqbDh4iK81WdWRdkq6ai7ZUPBrIvSJbeeUuki8ctEINu5TUxbA8IkORD8Juioc_OYnr6tNiSmk80-M4lhA5YXbUW3ABL53_Ab42U2pOY_Rtk814J-ruhkXCkHk5Ma5ZpnHsW70vIEKkrfNJL-jCt_7FIfbH77qqmXBxmZkYavAdgelPxdQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-primary px-3 py-1 rounded text-[10px] font-bold text-white uppercase tracking-wider">GOM / Goma Int.</span>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold dark:text-white">Goma</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Pôle Est</p>
+</div>
+<div class="text-right">
+<span class="text-3xl font-black text-primary">21°C</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">rainy</span>
+<span class="text-sm font-medium">Pluie légère</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">air</span>
+<span class="text-sm font-medium">12 kt E</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats & Authority Banner -->
+<section class="bg-slate-100 dark:bg-slate-900 px-6 py-16">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<div class="lg:col-span-1 space-y-4">
+<h4 class="text-slate-900 dark:text-white text-xl font-bold">État du système</h4>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Fourniture de données critiques aux autorités de l'aviation et aux compagnies aériennes depuis 2018.</p>
+</div>
+<div class="lg:col-span-3 flex flex-wrap gap-4">
+<div class="flex-1 min-w-[200px] p-6 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Pôles actifs</p>
+<p class="text-primary text-4xl font-black mt-2">15</p>
+</div>
+<div class="flex-1 min-w-[200px] p-6 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Précision des prévisions</p>
+<p class="text-primary text-4xl font-black mt-2">98.4%</p>
+</div>
+<div class="flex-1 min-w-[200px] p-6 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Fréquence des mises à jour</p>
+<p class="text-primary text-4xl font-black mt-2">5 <span class="text-lg font-bold">min</span></p>
+</div>
+</div>
+</div>
+<!-- Authority Partners -->
+<div class="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800">
+<p class="text-center text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-10">Partenaires officiels de l'aviation</p>
+<div class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all">
+<div class="flex items-center gap-2 font-black text-2xl">
+<span class="material-symbols-outlined text-3xl">account_balance</span>
+                                AAC/DRC
+                            </div>
+<div class="flex items-center gap-2 font-black text-2xl">
+<span class="material-symbols-outlined text-3xl">public</span>
+                                METTELSAT
+                            </div>
+<div class="flex items-center gap-2 font-black text-2xl">
+<span class="material-symbols-outlined text-3xl">flight</span>
+                                RVA
+                            </div>
+<div class="flex items-center gap-2 font-black text-2xl">
+<span class="material-symbols-outlined text-3xl">shield</span>
+                                Conformité ICAO
+                            </div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 px-6 py-12">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="bg-slate-200 dark:bg-slate-800 p-2 rounded-lg text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">flight_takeoff</span>
+</div>
+<span class="font-black tracking-tight uppercase">SKYMET</span>
+</div>
+<div class="flex gap-8 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary" href="#">Politique de confidentialité</a>
+<a class="hover:text-primary" href="#">Conditions d'utilisation</a>
+<a class="hover:text-primary" href="#">Contactez le support</a>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">© 2026 SKYMET. Tous droits réservés.</p>
+</div>
+</footer>
+</div>
+<script>
+// Mobile menu toggle
+(function(){
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    if(!btn || !menu) return;
+    btn.addEventListener('click', function(){
+        const isHidden = menu.classList.toggle('hidden');
+        // aria-expanded should be true when menu is visible
+        btn.setAttribute('aria-expanded', String(!isHidden));
+    });
+    // Close menu on resize to >= md
+    window.addEventListener('resize', function(){
+        if(window.innerWidth >= 768 && !menu.classList.contains('hidden')){
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
+</body></html>

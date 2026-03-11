@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0b62da",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<title>Création briefing de vol - SKYMET</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-y-auto">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 backdrop-blur-sm px-6 lg:px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary text-2xl">flight_takeoff</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">SKYMET <span class="text-primary/70 font-medium text-sm block -mt-1 uppercase tracking-widest">Opérations</span></h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-semibold" href="#">Tableau de bord</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Briefings de vol</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-semibold" href="#">Cartes météo</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-semibold" href="#">Rapports d'aérodrome</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+    <button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-2">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-500">
+<span class="material-symbols-outlined text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder:text-slate-400" placeholder="Rechercher des vols..."/>
+</div>
+<button class="flex items-center gap-2 cursor-pointer rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-sm">account_circle</span>
+<span>Profil agent</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20" data-alt="Avatar of a male flight agent" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuADxDuwQ9FtsCxnGEFUt-r65YmF58_46gdJGgSiZX6gjm-2INC15tMkbgsjZWl3RshbL_EhQJrfw7YVyh5FGyy8tMRN7j1-vCErPVCItL9RQmoxNJcSfhOMJ1mf_k6LBU5gv3rnBSURbkGQWg8LuHCQ_wP4ezDtCR5Y0N0CkKgJ1I7jcZ5Dl8zcHEvuFpYZmR0_qDj3VAALzj2b8MXH_eGht6fE2qPuv0FmJXTJB3zqy-T9LjdBuz7o0p-sKhTNoCOa23vxUi-mQZg");'></div>
+</div>
+</header>
+<!-- spacer to offset fixed header -->
+<div class="h-16 md:h-20" aria-hidden="true"></div>
+
+<!-- Mobile menu (hidden on desktop) -->
+<div id="mobile-menu" class="md:hidden hidden fixed left-0 right-0 z-50 top-16 md:top-20 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div class="px-4 py-3">
+        <nav class="flex flex-col gap-2">
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Tableau de bord</a>
+            <a class="block text-primary font-bold px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Briefings de vol</a>
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Cartes météo</a>
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Rapports d'aérodrome</a>
+        </nav>
+    </div>
+</div>
+
+<main class="flex flex-1 justify-center py-10 px-4">
+<div class="max-w-[1024px] w-full flex flex-col gap-8">
+<div class="flex flex-col gap-2 border-b border-slate-200 dark:border-slate-800 pb-6">
+<h1 class="text-slate-900 dark:text-slate-100 text-3xl font-black leading-tight tracking-tight">Créer le dossier météo de vol</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base">Générer un dossier météorologique complet pour les vols programmés et non programmés dans l'espace aérien de la RDC.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">tag</span>
+<h3 class="text-slate-900 dark:text-slate-100 text-xl font-bold">1. Identification du vol</h3>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Numéro de vol</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" placeholder="ex. CAA123"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Immatriculation</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" placeholder="ex. 9Q-ABC"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Type d'aéronef</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" placeholder="ex. A320"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Compagnie</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" placeholder="ex. Congo Airways"/>
+</label>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">map</span>
+<h3 class="text-slate-900 dark:text-slate-100 text-xl font-bold">2. Route & horaire</h3>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Départ ICAO</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" placeholder="e.g. FZAA"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Destination ICAO</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" placeholder="e.g. FZQA"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Niveau de vol (FL)</span>
+<select class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm">
+<option>FL330</option>
+<option>FL350</option>
+<option>FL370</option>
+<option>FL390</option>
+</select>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">ETD (UTC)</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" type="time"/>
+</label>
+</div>
+</div>
+<div class="md:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">checklist_rtl</span>
+<h3 class="text-slate-900 dark:text-slate-100 text-xl font-bold">3. Sélection des produits météo</h3>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+<label class="flex items-center gap-3 p-4 border border-slate-200 dark:border-slate-800 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
+<input checked="" class="w-5 h-5 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">TEMPSI</span>
+<span class="text-xs text-slate-500">Météo sig.</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 border border-slate-200 dark:border-slate-800 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
+<input checked="" class="w-5 h-5 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">WINTEM</span>
+<span class="text-xs text-slate-500">Vent &amp; Temp</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 border border-slate-200 dark:border-slate-800 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
+<input checked="" class="w-5 h-5 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">Satellite</span>
+<span class="text-xs text-slate-500">Infrarouge/RVB</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 border border-slate-200 dark:border-slate-800 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
+<input checked="" class="w-5 h-5 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">TAF</span>
+<span class="text-xs text-slate-500">TAF aéroportuaire</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 border border-slate-200 dark:border-slate-800 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
+<input checked="" class="w-5 h-5 text-primary rounded border-slate-300 focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-slate-100">METAR</span>
+<span class="text-xs text-slate-500">Rapports actuels</span>
+</div>
+</label>
+</div>
+<div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-wrap gap-4 items-end">
+<label class="flex flex-col gap-2 flex-1 min-w-[200px]">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Aérodromes alternatifs (codes ICAO)</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" placeholder="ex. FZNA, FZKA"/>
+</label>
+<label class="flex flex-col gap-2 min-w-[200px]">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Heure de récupération du briefing</span>
+<input class="rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary h-12 text-sm" type="datetime-local"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end pt-4 pb-12">
+<button class="flex items-center gap-3 px-8 h-16 bg-primary text-white rounded-xl font-bold text-lg hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-95 group">
+<span>Générer le dossier météo de vol</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">picture_as_pdf</span>
+</button>
+</div>
+</div>
+</main>
+<footer class="border-t border-slate-200 dark:border-slate-800 px-10 py-6 bg-white dark:bg-background-dark">
+<div class="max-w-[1024px] mx-auto flex justify-between items-center text-sm text-slate-500">
+<p>© 2024 Services météorologiques aéronautiques SKYMET - Autorité météo RDC</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Réglementation sécurité</a>
+<a class="hover:text-primary transition-colors" href="#">Normes ICAO</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+
+<script>
+// Mobile menu toggle for briefing_form_flight
+(function(){
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    if(!btn || !menu) return;
+    btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
+    });
+    window.addEventListener('resize', function(){
+        if(window.innerWidth >= 768 && !menu.classList.contains('hidden')){
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+    document.addEventListener('click', function(e){
+        if(window.innerWidth >= 768) return;
+        if(!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)){
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
+
+</div>
+</div>
+</body></html>

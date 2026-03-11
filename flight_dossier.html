@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0048ad",
+                        "background-light": "#f5f7f8",
+                        
+                        "background-dark": "#0f1723",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Traitement du dossier de briefing de vol - SKYMET</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 backdrop-blur-sm px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+<span class="material-symbols-outlined">flight_takeoff</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">SKYMET Aéronautique</h2>
+</div>
+<label class="flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Rechercher des vols..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tableau de bord</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Demandes de vol</a>
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Cartes météo</a>
+<a class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Rapports</a>
+</div>
+<button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors mr-2">
+    <span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</button>
+</div>
+<div class="bg-primary/10 border border-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBwwTqZiMm9Mn1KfD3JDlEDG7iGVNR3YAJYF06tMXWcZkeaaZQH38rdUeRbiPXDbMiAbIgyotnUN0E3CASsYRlRU7RggsMgj8cLu9rNsDwJqufzW3OK_BlMmZq-pHXLnvae9ljr5IQZtXl-_2aPMQ71QvBzJ5eKSLVE_vQNKtFJvqgq4TRwM2kx9TSnFQlzQ5RbkAifNIVb4a9QXpwMdJVrTHOKJcoJ1FxQjvP5SdNkpbeGihFYDGL4v5RzxDl84NTejf9JKitsQM0");'></div>
+</div>
+</header>
+
+<!-- Mobile menu (hidden on desktop) -->
+<div id="mobile-menu" class="md:hidden hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <div class="px-4 py-3">
+        <nav class="flex flex-col gap-2">
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Tableau de bord</a>
+            <a class="block text-primary font-bold px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Demandes de vol</a>
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Cartes météo</a>
+            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Rapports</a>
+        </nav>
+    </div>
+</div>
+
+<main class="flex flex-1 justify-center py-8 pt-20 md:pt-24">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap items-center gap-2 mb-6">
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Accueil</a>
+<span class="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Demandes de vol</a>
+<span class="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+<span class="text-primary text-sm font-bold">Dossier de briefing FZ-902</span>
+</div>
+<!-- Header Section -->
+<div class="flex flex-wrap justify-between items-end gap-6 mb-8">
+<div class="flex min-w-72 flex-col gap-2">
+<h1 class="text-slate-900 dark:text-slate-100 text-4xl font-black leading-tight tracking-tight">Traitement du dossier de briefing de vol</h1>
+<div class="flex items-center gap-3">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold tracking-wide">ID VOL : FZ-902</span>
+<span class="text-slate-500 dark:text-slate-400 text-base font-normal">Kinshasa (FZAA) <span class="material-symbols-outlined align-middle mx-1">arrow_forward</span> Lubumbashi (FZQA)</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-lg h-11 px-5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined mr-2">map</span>
+                                Voir le plan de vol
+                            </button>
+<button class="flex items-center justify-center rounded-lg h-11 px-5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined mr-2">archive</span>
+                                Archiver
+                            </button>
+</div>
+</div>
+<!-- Stats / Overview Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Départ</p>
+<p class="text-slate-900 dark:text-slate-100 text-3xl font-black tracking-tight">FZAA</p>
+<p class="text-slate-400 text-xs font-normal">N'Djili Intl Airport</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Arrivée</p>
+<p class="text-slate-900 dark:text-slate-100 text-3xl font-black tracking-tight">FZQA</p>
+<p class="text-slate-400 text-xs font-normal">Lubumbashi Intl Airport</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Statut</p>
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-amber-500 animate-pulse"></span>
+<p class="text-amber-600 dark:text-amber-400 text-xl font-bold">En cours</p>
+</div>
+<p class="text-slate-400 text-xs font-normal">Assigned to: Agent MET-04</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Demandeur</p>
+<p class="text-slate-900 dark:text-slate-100 text-2xl font-bold">Air Congo</p>
+<p class="text-slate-400 text-xs font-normal">Heure de la demande : 10:30 UTC</p>
+</div>
+</div>
+<!-- Main Content Columns -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Requested Products -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-b border-slate-200 dark:border-slate-800">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold">Produits météorologiques</h2>
+</div>
+<div class="p-0">
+<div class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Product item -->
+<div class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">storm</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-slate-100">TEMPSI (SWH/SWM/SWL)</p>
+<p class="text-xs text-slate-500">Cartes des phénomènes météo significatifs</p>
+</div>
+</div>
+<span class="flex items-center text-emerald-500 text-sm font-medium">
+<span class="material-symbols-outlined text-sm mr-1">check_circle</span> Prêt
+                                            </span>
+</div>
+<!-- Product item -->
+<div class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">air</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-slate-100">WINTEM</p>
+<p class="text-xs text-slate-500">Prévisions des vents et températures en altitude</p>
+</div>
+</div>
+<span class="flex items-center text-emerald-500 text-sm font-medium">
+<span class="material-symbols-outlined text-sm mr-1">check_circle</span> Ready
+                                            </span>
+</div>
+<!-- Product item -->
+<div class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">satellite_alt</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-slate-100">Satellite (EUMETSAT)</p>
+<p class="text-xs text-slate-500">Images infrarouges et visibles (Afrique centrale)</p>
+</div>
+</div>
+<span class="flex items-center text-emerald-500 text-sm font-medium">
+<span class="material-symbols-outlined text-sm mr-1">check_circle</span> Ready
+                                            </span>
+</div>
+<!-- Product item -->
+<div class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-slate-100">TAF / METAR Dossier</p>
+<p class="text-xs text-slate-500">Rapports météorologiques et prévisions aéroportuaires</p>
+</div>
+</div>
+<span class="flex items-center text-amber-500 text-sm font-medium">
+<span class="material-symbols-outlined text-sm mr-1">pending</span> En traitement
+                                            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Context -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold">Aperçu de la route (Couloir RDC)</h2>
+</div>
+<div class="aspect-video bg-slate-200 dark:bg-slate-800 relative">
+<img alt="Carte montrant le trajet de vol de Kinshasa à Lubumbashi" class="w-full h-full object-cover opacity-80" data-alt="Carte satellite du terrain de la République démocratique du Congo" data-location="RDC" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoDKI8zMSF-X65LXNQSDIAJPK6mw0BUr0g408a14b3ZUpGbWIRlIF1jeNbachAJV7jXrK1TYib7xTcYJ6d8aChH2jB7wotmoic2Uf-ArgpCsEu5jf0pwMQmFpbFX5mDpCnrlEJHoaCt9OZLCe5Uu6SztZA3DnD2EC_HsZikU6-CTEHNgYyKRZp1IN2YWRVFgvjfUfgZFnAS6vkVQ7AfxZoyPVe26z2x2Z5ngIkqjr-pD4nvnj9WzlPcM7NbuTwH3pxQ9EtAHihTc8"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<svg class="w-full h-full px-12 py-8" viewbox="0 0 400 200">
+<path d="M50 150 Q 200 50 350 150" fill="none" stroke="#0048ad" stroke-dasharray="10 5" stroke-width="4"></path>
+<circle cx="50" cy="150" fill="#0048ad" r="6"></circle>
+<circle cx="350" cy="150" fill="#0048ad" r="6"></circle>
+<text fill="#0048ad" font-weight="bold" x="30" y="175">FZAA</text>
+<text fill="#0048ad" font-weight="bold" x="330" y="175">FZQA</text>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Agent Actions -->
+<div class="flex flex-col gap-6">
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold mb-4">Actions de l'agent</h3>
+<div class="flex flex-col gap-4">
+<!-- Attach METARs -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300">Joindre METAR/SPECI le plus récent</label>
+<div class="flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<div class="text-center">
+<span class="material-symbols-outlined text-primary text-3xl mb-1">upload_file</span>
+<p class="text-xs text-slate-500">Glisser-déposer ou cliquer pour téléverser</p>
+</div>
+</div>
+</div>
+<!-- Wind/Fuel Calc -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300">Calculs météorologiques</label>
+<textarea class="form-textarea w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:ring-primary focus:border-primary" placeholder="Saisir le composant vent ou les corrections d'altitude densité..." rows="3"></textarea>
+</div>
+<hr class="border-slate-100 dark:border-slate-800 my-2"/>
+<!-- Main Actions -->
+<button class="flex items-center justify-center w-full rounded-lg h-12 bg-primary text-white font-bold text-lg hover:bg-primary/90 transition-all shadow-md active:scale-[0.98]">
+<span class="material-symbols-outlined mr-2">auto_awesome</span>
+                                        Générer le dossier
+                                    </button>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-lg mr-1">download</span>
+                                            Télécharger le PDF
+                                        </button>
+<button class="flex items-center justify-center rounded-lg h-10 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-lg mr-1">mail</span>
+                                            Envoyer à la compagnie
+                                        </button>
+</div>
+</div>
+</div>
+<!-- History Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold mb-4">Historique de traitement</h3>
+<div class="space-y-4">
+<div class="flex gap-3 relative before:content-[''] before:absolute before:left-2 before:top-6 before:bottom-0 before:w-px before:bg-slate-200 dark:before:bg-slate-800">
+<div class="size-4 rounded-full bg-emerald-500 z-10"></div>
+<div class="flex flex-col -mt-1">
+<p class="text-xs text-slate-500">Aujourd'hui, 10:45 UTC</p>
+<p class="text-sm font-medium">Cartes TEMPSI récupérées</p>
+</div>
+</div>
+<div class="flex gap-3 relative before:content-[''] before:absolute before:left-2 before:top-6 before:bottom-0 before:w-px before:bg-slate-200 dark:before:bg-slate-800">
+<div class="size-4 rounded-full bg-emerald-500 z-10"></div>
+<div class="flex flex-col -mt-1">
+<p class="text-xs text-slate-500">Aujourd'hui, 10:35 UTC</p>
+<p class="text-sm font-medium">Demande validée et assignée</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="size-4 rounded-full bg-slate-300 dark:bg-slate-700 z-10"></div>
+<div class="flex flex-col -mt-1">
+<p class="text-xs text-slate-500">Aujourd'hui, 10:30 UTC</p>
+<p class="text-sm font-medium">Demande reçue d'Air Congo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-6 mt-12">
+<div class="flex flex-wrap justify-between items-center max-w-[1200px] mx-auto gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">cloud_done</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm">© 2024 SKYMET Météorologie aéronautique — Autorité MET RDC</p>
+</div>
+<div class="flex gap-6">
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary" href="#">Directives opérationnelles</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary" href="#">État du système</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+<script>
+(function(){
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    if(!btn || !menu) return;
+    btn.addEventListener('click', ()=>{
+        const hidden = menu.classList.toggle('hidden');
+        const expanded = (!hidden).toString();
+        btn.setAttribute('aria-expanded', expanded);
+    });
+    // Close menu when resizing to desktop
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 768 && !menu.classList.contains('hidden')){
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
+</body></html>
