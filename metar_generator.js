@@ -32,6 +32,7 @@ function genererTAF(metarData) {
     const nuages = metarData.nuages || 'SCT015CB BKN030';
     const temperature = metarData.temperature || 28;
     const qnh = metarData.qnh || 1013;
+    const tendance = metarData.tendance || 'NOSIG';
     
     // Heures de prévision (périodes)
     const now = new Date();
@@ -41,6 +42,9 @@ function genererTAF(metarData) {
     const heurePrevision3 = (heureActuelle + 12) % 24;
     
     const pad = (n) => String(n).padStart(2, '0');
+    
+    // Utiliser la tendance sélectionnée
+    const tendanceCode = tendance === 'NOSIG' ? 'NOSIG' : tendance;
     
     // Construction du TAF
     const tafParts = [
@@ -53,7 +57,7 @@ function genererTAF(metarData) {
         `${nuages}`,
         `Q${Math.round(qnh)}`,
         `T${Math.round(temperature)}/${Math.round(metarData.pointRosee || 20)}`,
-        'NOSIG'
+        tendanceCode
     ];
     
     // Ajouter des périodes de prévision
@@ -90,7 +94,15 @@ function remplirFormulaireMetar() {
     if (tdInput) tdInput.value = data.td ? Math.round(parseFloat(data.td)) : '';
     if (qnhInput) qnhInput.value = data.qnh ? Math.round(parseFloat(data.qnh)) : '';
     if (qfeInput) qfeInput.value = data.qfe || '';
-    if (tendanceInput) tendanceInput.value = data.tendance || '';
+    
+    // 🔥 CORRECTION : S'assurer que la tendance est définie correctement
+    if (tendanceInput) {
+        const tendanceValue = data.tendance || 'NOSIG';
+        // Vérifier si l'option existe
+        const optionExists = Array.from(tendanceInput.options).some(opt => opt.value === tendanceValue);
+        tendanceInput.value = optionExists ? tendanceValue : 'NOSIG';
+    }
+    
     if (icaoInput) icaoInput.value = 'FZAA';
     if (datetimeInput) datetimeInput.value = dateStr;
     if (ventInput) ventInput.value = '21008KT';
@@ -98,7 +110,7 @@ function remplirFormulaireMetar() {
     if (nuagesInput) nuagesInput.value = 'SCT015CB BKN030';
     
     const select = document.getElementById('metar-phenomenes');
-    if (select) select.value = 'TSRA';
+    if (select) select.value = 'CAVOK';
     
     // ⚠️ IMPORTANT : Le TAF RESTE VIDE - pas de génération automatique
     const tafOutput = document.getElementById('taf-output');
@@ -115,52 +127,68 @@ function genererMETAR() {
     const datetime = document.getElementById('metar-datetime')?.value || new Date().toISOString().slice(2, 12).replace(/-/g, '').replace(/T/g, '') + 'Z';
     const vent = document.getElementById('metar-vent')?.value || '21008KT';
     const visibilite = document.getElementById('metar-visibilite')?.value || '8000';
-    const phenomenes = document.getElementById('metar-phenomenes')?.value || 'TSRA';
+    const phenomenes = document.getElementById('metar-phenomenes')?.value || 'CAVOK';
     const nuages = document.getElementById('metar-nuages')?.value || 'SCT015CB BKN030';
     const temperature = document.getElementById('metar-temperature')?.value || '28';
     const pointRosee = document.getElementById('metar-point-rosee')?.value || '24';
     const qnh = document.getElementById('metar-qnh')?.value || '1013';
     const qfe = document.getElementById('metar-qfe')?.value || '1001';
-    const tendance = document.getElementById('metar-tendance')?.value || 'STABLE';
+    const tendance = document.getElementById('metar-tendance')?.value || 'NOSIG';
     
     const data = getStoredMetarData();
+    
+    // Gestion de la visibilité : si > 6000m, on ne signale rien
+    let visibiliteFinale = visibilite;
+    let phenomenesFinal = phenomenes;
+    
+    // Si la visibilité est bonne (> 6000m), on ne signale pas les phénomènes
+    const visibiliteNum = parseFloat(visibilite);
+    if (visibiliteNum > 6000) {
+        phenomenesFinal = ''; // Pas de phénomène à signaler
+    }
+    
+    // 🔥 SUPPRESSION DU MESSAGE DE VISIBILITÉ - On ne l'affiche plus
+    // const messageVisibilite = visibiliteNum > 6000 ? ' (Visibilité bonne - aucun phénomène signalé)' : '';
     
     // Construction du METAR
     const metarParts = [
         icao,
         datetime,
         vent,
-        visibilite,
-        phenomenes,
+        visibiliteFinale,
+        phenomenesFinal || 'CAVOK', // Si pas de phénomènes, on met CAVOK
         nuages,
         `${Math.round(parseFloat(temperature))}/${Math.round(parseFloat(pointRosee))}`,
         `Q${Math.round(parseFloat(qnh))}`,
-        'NOSIG'
+        tendance === 'NOSIG' ? 'NOSIG' : tendance
     ];
     
-    const metarFinal = metarParts.join(' ') + '=';
+    // Nettoyer les parties vides
+    const metarPartsFiltres = metarParts.filter(part => part && part.trim() !== '');
+    const metarFinal = metarPartsFiltres.join(' ') + '=';
     
-    // ✅ Construction du TAF (uniquement ici !)
+    // ✅ Construction du TAF
     const metarData = {
         icao: icao,
         datetime: datetime,
         vent: vent,
-        visibilite: visibilite,
-        phenomenes: phenomenes,
+        visibilite: visibiliteFinale,
+        phenomenes: phenomenesFinal || 'CAVOK',
         nuages: nuages,
         temperature: Math.round(parseFloat(temperature)),
         pointRosee: Math.round(parseFloat(pointRosee)),
-        qnh: Math.round(parseFloat(qnh))
+        qnh: Math.round(parseFloat(qnh)),
+        tendance: tendance
     };
     const tafFinal = genererTAF(metarData);
     
-    // Afficher le METAR
+    // 🔥 Afficher le METAR SANS le message de visibilité
     const output = document.getElementById('metar-output');
     if (output) {
         output.innerHTML = `<span class="text-green-400 font-mono">${metarFinal}</span>`;
     }
     
-    // ✅ Afficher le TAF (généré maintenant)
+    // ✅ Afficher le TAF
     const tafOutput = document.getElementById('taf-output');
     if (tafOutput) {
         tafOutput.innerHTML = `<span class="text-amber-400 font-mono text-sm">${tafFinal}</span>`;
@@ -176,14 +204,14 @@ function genererMETAR() {
         icao: icao,
         datetime: datetime,
         vent: vent,
-        visibilite: visibilite,
-        phenomenes: phenomenes,
+        visibilite: visibiliteFinale,
+        phenomenes: phenomenesFinal || 'CAVOK',
         nuages: nuages,
         temperature: Math.round(parseFloat(temperature)),
         pointRosee: Math.round(parseFloat(pointRosee)),
         qnh: Math.round(parseFloat(qnh)),
         qfe: qfe || data.qfe || '1001',
-        tendance: tendance || data.tendance || 'STABLE',
+        tendance: tendance || 'NOSIG',
         uu: data.uu || '--',
         ts: data.ts || temperature,
         td: data.td || pointRosee,
@@ -262,13 +290,16 @@ function ajouterHistoriqueMetar(metar, data) {
 function reinitialiserMetar() {
     const fields = ['metar-icao', 'metar-datetime', 'metar-vent', 'metar-visibilite', 
                    'metar-nuages', 'metar-temperature', 'metar-point-rosee', 
-                   'metar-qnh', 'metar-qfe', 'metar-tendance'];
+                   'metar-qnh', 'metar-qfe'];
     fields.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
     });
-    const select = document.getElementById('metar-phenomenes');
-    if (select) select.value = '';
+    const selectPhenomenes = document.getElementById('metar-phenomenes');
+    if (selectPhenomenes) selectPhenomenes.value = 'CAVOK';  // 🔥 Changé de '' à 'CAVOK'
+    
+    const selectTendance = document.getElementById('metar-tendance');
+    if (selectTendance) selectTendance.value = 'NOSIG';
     
     const output = document.getElementById('metar-output');
     if (output) {

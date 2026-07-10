@@ -152,13 +152,15 @@
                                     <span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Phénomènes météo</span>
                                     <select id="metar-phenomenes" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-primary focus:ring-primary h-12">
                                         <option value="">Sélectionner</option>
+                                        <option value="CAVOK" selected>CAVOK (Conditions CAVOK)</option>  <!-- ← Ajouté et sélectionné par défaut -->
+                        
                                         <option value="TSRA">TSRA (Orage/Pluie)</option>
                                         <option value="HZ">HZ (Brume)</option>
                                         <option value="FG">FG (Brouillard)</option>
                                         <option value="BR">BR (Brume légère)</option>
                                         <option value="RA">RA (Pluie)</option>
                                         <option value="DZ">DZ (Bruine)</option>
-                                        <option value="SN">SN (Neige)</option>
+                                        
                                     </select>
                                 </label>
                                 <label class="flex flex-col gap-2">
@@ -197,10 +199,25 @@
                                     <span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">QFE (hPa)</span>
                                     <input id="metar-qfe" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-primary focus:ring-primary h-12" type="text" placeholder="QFE"/>
                                 </label>
+
+
+                                <!-- Dans la section Atmosphère, remplacer le champ tendance par un select -->
                                 <label class="flex flex-col gap-2">
                                     <span class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Tendance</span>
-                                    <input id="metar-tendance" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-primary focus:ring-primary h-12" type="text" placeholder="Tendance" readonly/>
+                                    <select id="metar-tendance" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-primary focus:ring-primary h-12">
+                                        <option value="NOSIG" selected>NOSIG (Pas de changement significatif)</option> 
+                                        <option value="NO SIGNAL">NO SIGNAL (Rien à signaler)</option>
+        
+                                        <option value="BECMG">BECMG (Devenant)</option>
+                                        <option value="TEMPO">TEMPO (Temporairement)</option>
+                                        <option value="INTER">INTER (Intermittent)</option>
+                                        <option value="RAPID">RAPID (Rapide)</option>
+                                        <option value="GRADU">GRADU (Graduel)</option>
+                                    </select>
                                 </label>
+
+
+
                             </div>
                             <div class="mt-4 text-xs text-slate-400 flex items-center gap-2">
                                 <span class="material-symbols-outlined text-sm">info</span>
