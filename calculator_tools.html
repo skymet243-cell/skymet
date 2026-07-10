@@ -136,10 +136,14 @@
 <span class="material-symbols-outlined text-lg">print</span>
                     Exporter le journal
                 </button>
-<a href="meta_report_gen.html" class="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
-<span class="material-symbols-outlined text-lg">cloud</span>
-                    Générer METAR
-                </a>
+
+<!-- Dans la page principale, remplace le lien METAR par : -->
+<a href="meta_report_gen.html" id="btn-generer-metar" class="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+    <span class="material-symbols-outlined text-lg">cloud</span>
+    Générer METAR
+</a>
+
+
 </div>
 </div>
 <!-- Tool Grid -->
@@ -188,149 +192,168 @@
 </div>
 <!-- Main Calculation Area -->
 <div class="lg:col-span-9 space-y-8">
+
+
+
 <!-- TD/UU Calculation Section -->
-<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-<div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">water_drop</span>
-<h2 class="font-bold text-lg">Calcul TD/UU (Humidité)</h2>
-</div>
-<span class="text-[10px] font-bold text-slate-400 border border-slate-300 dark:border-slate-600 px-2 py-0.5 rounded">FORMULE PSYCHROMÉTRIQUE</span>
-</div>
-<div class="p-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="space-y-6">
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div class="space-y-2">
-<label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Température sèche (°C)</label>
-<div class="relative">
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="30.5" step="0.1" type="number"/>
-<span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">°C</span>
-</div>
-</div>
-<div class="space-y-2">
-<label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Température humide (°C)</label>
-<div class="relative">
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="25.2" step="0.1" type="number"/>
-<span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">°C</span>
-</div>
-</div>
-</div>
-<div class="space-y-2">
-<label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Pression atmosphérique (hPa)</label>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all font-mono" type="number" value="1013.2"/>
-</div>
-<button class="w-full bg-primary text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
-<span class="material-symbols-outlined">calculate</span>
-                                    TRAITER LES DONNÉES D'HUMIDITÉ
-                                </button>
-</div>
-<!-- Results Side -->
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div class="bg-primary/5 dark:bg-primary/10 p-6 rounded-xl border border-primary/10 flex flex-col justify-between">
-<span class="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-4">Humidité relative</span>
-<div>
-<div class="text-4xl font-black text-primary tracking-tighter">68.4 <span class="text-xl">%</span></div>
-<p class="text-xs text-slate-500 mt-2 font-medium">Valeur UU (précision)</p>
-</div>
-</div>
-<div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
-<span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Point de rosée (TD)</span>
-<div>
-<div class="text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">23.8 <span class="text-xl">°C</span></div>
-<p class="text-xs text-slate-500 mt-2 font-medium">Calcul TD standard</p>
-</div>
-</div>
-<div class="sm:col-span-2 bg-slate-900 p-4 rounded-xl flex items-center justify-between">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded bg-primary/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-sm">info</span>
-</div>
-<span class="text-xs text-slate-400 font-medium">Écart (T - TD) : 6.7°C</span>
-</div>
-<span class="text-[10px] text-green-400 font-bold uppercase px-2 py-1 bg-green-400/10 rounded">Stable</span>
-</div>
-</div>
-</div>
-</div>
+<section id="section-tduu" class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+    <div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">water_drop</span>
+            <h2 class="font-bold text-lg">Calcul TD/UU (Humidité)</h2>
+        </div>
+        <span class="text-[10px] font-bold text-slate-400 border border-slate-300 dark:border-slate-600 px-2 py-0.5 rounded">FORMULE PSYCHROMÉTRIQUE</span>
+    </div>
+
+    <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Colonne de gauche : Inputs -->
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Température sèche (°C)</label>
+                        <div class="relative">
+                            <input id="ts-input" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="30.5" step="0.1" type="number"/>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">°C</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Température humide (°C)</label>
+                        <div class="relative">
+                            <input id="th-input" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="25.2" step="0.1" type="number"/>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">°C</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Pression atmosphérique (hPa)</label>
+                    <input id="pression-input" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all font-mono" type="number" value="1013.2"/>
+                </div>
+                <button id="btn-calcul-tduu" class="w-full bg-primary text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">calculate</span>
+                    TRAITER LES DONNÉES D'HUMIDITÉ
+                </button>
+            </div>
+            
+            <!-- Colonne de droite : Résultats -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Carte UU -->
+                <div id="result-uu" class="bg-primary/5 dark:bg-primary/10 p-6 rounded-xl border border-primary/10 flex flex-col justify-between">
+                    <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-4">Humidité relative</span>
+                    <div>
+                        <div id="uu-value" class="text-4xl font-black text-primary tracking-tighter">-- <span class="text-xl">%</span></div>
+                        <p class="text-xs text-slate-500 mt-2 font-medium">Valeur UU (précision)</p>
+                    </div>
+                </div>
+                
+                <!-- Carte TD -->
+                <div id="result-td" class="bg-slate-50 dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Point de rosée (TD)</span>
+                    <div>
+                        <div id="td-value" class="text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">-- <span class="text-xl">°C</span></div>
+                        <p class="text-xs text-slate-500 mt-2 font-medium">Calcul TD standard</p>
+                    </div>
+                </div>
+                
+                <!-- Carte Info -->
+                <div id="result-info" class="sm:col-span-2 bg-slate-900 p-4 rounded-xl flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-primary/20 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-sm">info</span>
+                        </div>
+                        <span id="ecart-text" class="text-xs text-slate-400 font-medium">Écart (T - TD) : ---°C</span>
+                    </div>
+                    <span id="status-text" class="text-[10px] text-slate-400 font-bold uppercase px-2 py-1 bg-slate-400/10 rounded">EN ATTENTE</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+
+
 <!-- QFE/QNH Calculation Section -->
-<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-<div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">compress</span>
-<h2 class="font-bold text-lg">Calcul QFE/QNH (Pression)</h2>
-</div>
-<span class="text-[10px] font-bold text-slate-400 border border-slate-300 dark:border-slate-600 px-2 py-0.5 rounded">FORMULE HYPSOMÉTRIQUE</span>
-</div>
-<div class="p-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="space-y-6">
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div class="space-y-2">
-<label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Pression lue (hPa)</label>
-<div class="relative">
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="985.45" step="0.01" type="number"/>
-<span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold uppercase">hPa</span>
-</div>
-</div>
-<div class="space-y-2">
-<label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Température relevée (°C)</label>
-<div class="relative">
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="28.4" step="0.1" type="number"/>
-<span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">°C</span>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="space-y-2">
-<label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Altitude station (m)</label>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all font-mono" type="number" value="312"/>
-</div>
-<div class="space-y-2">
-<label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Indice de correction</label>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all font-mono" type="number" value="0.08"/>
-</div>
-</div>
-<button class="w-full bg-primary text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
-<span class="material-symbols-outlined">analytics</span>
-                                    Calculer réglages altimètre
-                                </button>
-</div>
-<!-- Results Side -->
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div class="bg-primary text-white p-6 rounded-xl shadow-lg flex flex-col justify-between">
-<span class="text-[10px] font-black text-white/70 uppercase tracking-[0.2em] mb-4">Valeur QNH</span>
-<div>
-<div class="text-4xl font-black tracking-tighter">1014.2 <span class="text-xl">hPa</span></div>
-<p class="text-xs text-white/70 mt-2 font-medium">Ajusté au niveau de la mer</p>
-</div>
-</div>
-<div class="bg-slate-900 text-white p-6 rounded-xl flex flex-col justify-between">
-<span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Valeur QFE</span>
-<div>
-<div class="text-4xl font-black tracking-tighter">984.8 <span class="text-xl">hPa</span></div>
-<p class="text-xs text-slate-400 mt-2 font-medium">Pression au niveau de la station</p>
-</div>
-</div>
-<div class="sm:col-span-2 border-2 border-dashed border-slate-200 dark:border-slate-700 p-6 rounded-xl flex items-center gap-6">
-<div class="text-center">
-<span class="text-[10px] font-bold text-slate-400 uppercase block mb-1">InHg</span>
-<span class="text-xl font-bold font-mono">29.95</span>
-</div>
-<div class="w-[1px] h-full bg-slate-200 dark:bg-slate-700"></div>
-<div class="flex-1">
-<span class="text-[10px] font-bold text-slate-400 uppercase block mb-2">Tendance pression</span>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-green-500">trending_up</span>
-<span class="text-sm font-semibold">+0.2 hPa / 3h</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<section id="section-qfeqnh" class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+    <div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">compress</span>
+            <h2 class="font-bold text-lg">Calcul QFE/QNH (Pression)</h2>
+        </div>
+        <span class="text-[10px] font-bold text-slate-400 border border-slate-300 dark:border-slate-600 px-2 py-0.5 rounded">FORMULE HYPSOMÉTRIQUE</span>
+    </div>
+    <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Colonne de gauche : Inputs -->
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Pression lue (hPa)</label>
+                        <div class="relative">
+                            <input id="pression-lue-input" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="985.45" step="0.01" type="number" value="974.1"/>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold uppercase">hPa</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Température relevée (°C)</label>
+                        <div class="relative">
+                            <input id="temperature-attachee-input" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all text-lg font-mono" placeholder="28.4" step="0.1" type="number" value="25.0"/>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">°C</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Altitude station (m)</label>
+                        <input id="altitude-input" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all font-mono" type="number" value="312"/>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase text-slate-500 tracking-wide">Indice de correction</label>
+                        <input id="correction-input" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 focus:ring-primary focus:border-primary transition-all font-mono" type="number" value="0.08" step="0.01"/>
+                    </div>
+                </div>
+                <button id="btn-calcul-qfeqnh" class="w-full bg-primary text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
+                    <span class="material-symbols-outlined">analytics</span>
+                    Calculer réglages altimètre
+                </button>
+            </div>
+            <!-- Colonne de droite : Résultats -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div id="result-qnh" class="bg-primary text-white p-6 rounded-xl shadow-lg flex flex-col justify-between">
+                    <span class="text-[10px] font-black text-white/70 uppercase tracking-[0.2em] mb-4">Valeur QNH</span>
+                    <div>
+                        <div id="qnh-value" class="text-4xl font-black tracking-tighter">-- <span class="text-xl">hPa</span></div>
+                        <p class="text-xs text-white/70 mt-2 font-medium">Ajusté au niveau de la mer</p>
+                    </div>
+                </div>
+                <div id="result-qfe" class="bg-slate-900 text-white p-6 rounded-xl flex flex-col justify-between">
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Valeur QFE</span>
+                    <div>
+                        <div id="qfe-value" class="text-4xl font-black tracking-tighter">-- <span class="text-xl">hPa</span></div>
+                        <p class="text-xs text-slate-400 mt-2 font-medium">Pression au niveau de la station</p>
+                    </div>
+                </div>
+                <div id="result-conversion" class="sm:col-span-2 border-2 border-dashed border-slate-200 dark:border-slate-700 p-6 rounded-xl flex items-center gap-6">
+                    <div class="text-center">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block mb-1">InHg</span>
+                        <span id="inhg-value" class="text-xl font-bold font-mono">--</span>
+                    </div>
+                    <div class="w-[1px] h-full bg-slate-200 dark:bg-slate-700"></div>
+                    <div class="flex-1">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase block mb-2">Tendance pression</span>
+                        <div class="flex items-center gap-2">
+                            <span id="tendance-icon" class="material-symbols-outlined text-green-500">trending_up</span>
+                            <span id="tendance-value" class="text-sm font-semibold">-- hPa / 3h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+
+
+
 <!-- Data History/Log Table -->
 <section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
@@ -416,5 +439,8 @@
     });
 })();
 </script>
+
+<script src="backendcalculator.js"></script>
+
 
 </body></html>

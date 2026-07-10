@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Tableau de bord opérations - SKYMET</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="light" lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Tableau de bord opérations - SKYMET</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -26,9 +26,13 @@
             },
         }
     </script>
-<style>
+    <style>
         body { font-family: 'Inter', sans-serif; }
         .material-symbols-outlined { font-size: 24px; vertical-align: middle; }
+        .metar-highlight {
+            background: linear-gradient(135deg, rgba(0,72,173,0.1) 0%, rgba(0,72,173,0.05) 100%);
+            border-left: 4px solid #0048ad;
+        }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display overflow-y-auto">
@@ -46,7 +50,6 @@
 <nav class="hidden md:flex items-center gap-6">
 <a class="text-primary text-sm font-semibold border-b-2 border-primary py-1" href="dashboard_operation.html">Tableau de Bord</a>
 <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="flight_briefing_request_list.html">Demande de Briefing</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="flight_dossier.html">Briefing de Vol</a>
 <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="calculator_tools.html">Outils de Calcul</a>
 <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="weather_ope_archive.html">Archives</a>
 <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="national_map_overlay.html">Carte Méteo</a>
@@ -84,7 +87,7 @@
 </div>
 </header>
 
-<!-- Mobile menu (hidden on desktop) -->
+<!-- Mobile menu -->
 <div id="mobile-menu" class="md:hidden hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
     <div class="px-4 py-3">
         <nav class="flex flex-col gap-2">
@@ -97,20 +100,8 @@
     </div>
 </div>
 
-<!-- spacer to offset fixed header height -->
 <div class="h-16 md:h-20" aria-hidden="true"></div>
 
-<!-- Mobile menu (hidden on desktop) - fixed under header -->
-<div id="mobile-menu" class="md:hidden hidden fixed left-0 right-0 z-50 top-16 md:top-20 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-    <div class="px-4 py-3">
-        <nav class="flex flex-col gap-2">
-            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Tableau de bord</a>
-            <a class="block text-primary font-bold px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Aéroports</a>
-            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Prévisions</a>
-            <a class="block text-slate-700 dark:text-slate-300 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800" href="#">Rapports</a>
-        </nav>
-    </div>
-</div>
 <main class="flex-1 flex flex-col p-4 lg:p-6 gap-6 max-w-[1600px] mx-auto w-full">
 <div class="flex flex-wrap justify-between items-end gap-4">
 <div class="flex flex-col gap-1">
@@ -119,159 +110,192 @@
 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
 <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
 </span>
-                            Données en direct du terminal
-                        </div>
-<h1 class="text-slate-900 dark:text-slate-100 text-3xl font-black leading-tight tracking-tight">Kinshasa Ndjili (FZAA)</h1>
-<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Mis à jour il y a 2 min • Service météorologique aéronautique RDC</p>
+Données en direct du terminal
+</div>
+<h1 class="text-slate-900 dark:text-slate-100 text-3xl font-black leading-tight tracking-tight" id="dashboard-station">Kinshasa Ndjili (FZAA)</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium" id="dashboard-updated">Mis à jour il y a 2 min • Service météorologique aéronautique RDC</p>
 </div>
 <div class="flex gap-2">
-<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold shadow-sm hover:bg-slate-50 transition-colors">
+<button onclick="rafraichirDashboard()" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold shadow-sm hover:bg-slate-50 transition-colors">
 <span class="material-symbols-outlined text-xl">refresh</span>
-                            Rafraîchir
-                        </button>
-<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold shadow-sm hover:bg-slate-50 transition-colors">
-<span class="material-symbols-outlined text-xl">share</span>
-                            Exporter
-                        </button>
+Rafraîchir
+</button>
+<a href="meta_report_gen.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+Générer METAR
+</a>
 </div>
 </div>
+
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Colonne de gauche (carte + METAR) -->
 <div class="lg:col-span-8 flex flex-col gap-6">
-<div class="relative bg-slate-200 dark:bg-slate-800 rounded-xl overflow-hidden min-h-[500px] shadow-sm border border-slate-200 dark:border-slate-700 group">
-<div class="absolute inset-0 bg-cover bg-center" data-alt="High detail aeronautical map of DR Congo with weather overlays" data-location="DR Congo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBaa_mMfFVEyrfOxEkae1ge8xc8VsZ6y6t3X8MZCjrRoo1pOucI14yUrOgWgpyp5bodJy4kfeAWxixaPyq4FcOgIuPV-aayShst4-RPYLCIBadAS4Glt5VPgGwbsiFpevXTV-oxkxV_TCAoMZtFT7X80r1GB74Y0EQY_ddfMbZdNOjFA_mUxCOuh80LolEd6X2rGNmO_U0jwZLFpSUXKv0mpdgD_2cfkUuI6TGVxNdvZl6qlCVl8TeBsV5Fot4K1SDDtoT76TDgZ44');"></div>
-<div class="absolute inset-0 bg-black/10"></div>
-<div class="absolute top-4 left-4 flex flex-col gap-2">
-<div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-3 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 flex flex-col gap-2 w-64">
-<div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 mb-1">
-<span class="text-xs font-bold text-slate-500 uppercase">Couches carte</span>
-<span class="material-symbols-outlined text-primary text-lg">layers</span>
+    <!-- Carte -->
+   <!-- Carte avec Windy intégré -->
+<div class="relative bg-slate-200 dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700 group" style="min-height: 500px;">
+    <!-- Windy Embed -->
+    <iframe 
+        id="windy-iframe"
+        width="100%" 
+        height="500" 
+        src="https://embed.windy.com/embed2.html?lat=-4.385&lon=15.444&zoom=8&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
+        frameborder="0"
+        class="absolute inset-0 w-full h-full"
+        style="min-height: 500px;"
+        allowfullscreen>
+    </iframe>
+    
+    <!-- Overlay de contrôle (optionnel) -->
+    <div class="absolute top-4 left-4 flex flex-col gap-2 z-10">
+        <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-3 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 flex flex-col gap-2 w-56">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 mb-1">
+                <span class="text-xs font-bold text-slate-500 uppercase">🌤️ Windy</span>
+                <span class="text-[10px] text-slate-400">Satellite</span>
+            </div>
+            <div class="flex gap-2 flex-wrap">
+                <button onclick="changerCoucheWindy('wind')" class="text-xs font-medium px-2 py-1 rounded bg-primary/10 text-primary hover:bg-primary/20 transition-colors">Vent</button>
+                <button onclick="changerCoucheWindy('temp')" class="text-xs font-medium px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors">Température</button>
+                <button onclick="changerCoucheWindy('rain')" class="text-xs font-medium px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors">Pluie</button>
+                <button onclick="changerCoucheWindy('clouds')" class="text-xs font-medium px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors">Nuages</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Position marker -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
+        <div class="relative group/marker pointer-events-auto">
+            <div class="size-6 bg-primary rounded-full border-2 border-white shadow-lg flex items-center justify-center cursor-pointer animate-pulse">
+                <div class="size-2 bg-white rounded-full"></div>
+            </div>
+            <div class="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded whitespace-nowrap uppercase">FZAA</div>
+        </div>
+    </div>
+    
+    <!-- Légende -->
+    <div class="absolute bottom-4 right-4 z-10 bg-black/60 backdrop-blur-sm p-2 rounded-lg text-white text-[10px] font-mono">
+        <span class="text-green-400">●</span> Données en direct
+    </div>
 </div>
-<label class="flex items-center gap-3 cursor-pointer">
-<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
-<span class="text-sm font-medium">État de l'aéroport</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer">
-<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
-<span class="text-sm font-medium">Radar précipitations</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer">
-<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
-<span class="text-sm font-medium">Trafic aérien</span>
-</label>
+
+    <!-- METAR actuel -->
+    <div class="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 metar-highlight">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">description</span>
+                <h3 class="font-bold text-lg">METAR actuel</h3>
+            </div>
+            <span id="dashboard-condition-badge" class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 text-xs font-bold px-2 py-1 rounded">VFR</span>
+        </div>
+        <div id="dashboard-metar" class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg font-mono text-base leading-relaxed tracking-wide border border-slate-200 dark:border-slate-700">
+            <span class="text-slate-400">Aucun METAR généré. Utilisez l'outil de calcul ou le générateur METAR.</span>
+        </div>
+        <div class="mt-4 flex gap-4 text-xs font-medium text-slate-500">
+            <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-base">schedule</span>
+                <span id="dashboard-time">--:-- UTC</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-base">history</span>
+                <span id="dashboard-updated-time">Mis à jour il y a -- min</span>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-<div class="absolute bottom-4 right-4 flex flex-col gap-2">
-<button class="size-10 flex items-center justify-center bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-primary">
-<span class="material-symbols-outlined">add</span>
-</button>
-<button class="size-10 flex items-center justify-center bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-primary">
-<span class="material-symbols-outlined">remove</span>
-</button>
-<button class="size-10 flex items-center justify-center bg-white dark:bg-slate-900 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-primary">
-<span class="material-symbols-outlined">my_location</span>
-</button>
-</div>
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-<div class="relative group/marker pointer-events-auto">
-<div class="size-6 bg-primary rounded-full border-2 border-white shadow-lg flex items-center justify-center cursor-pointer">
-<div class="size-2 bg-white rounded-full"></div>
-</div>
-<div class="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded whitespace-nowrap uppercase">FZAA</div>
-</div>
-</div>
-</div>
-<div class="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700">
-<div class="flex items-center justify-between mb-4">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">description</span>
-<h3 class="font-bold text-lg">METAR actuel</h3>
-</div>
-<span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 text-xs font-bold px-2 py-1 rounded">VFR</span>
-</div>
-<div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg font-mono text-base leading-relaxed tracking-wide border border-slate-200 dark:border-slate-700">
-<span class="text-primary font-bold">FZAA</span> 241200Z 28005KT 9999 FEW018 31/22 Q1013 NOSIG
-                            </div>
-<div class="mt-4 flex gap-4 text-xs font-medium text-slate-500">
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-base">schedule</span>
-                                    12:00 UTC
-                                </div>
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-base">history</span>
-                                    Mis à jour il y a 14 min
-                                </div>
-</div>
-</div>
-</div>
+
+<!-- Colonne de droite (indicateurs) -->
 <div class="lg:col-span-4 flex flex-col gap-4">
-<div class="grid grid-cols-2 gap-4">
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">Heure UTC</span>
-<div class="text-2xl font-black text-slate-900 dark:text-slate-100">12:14:32</div>
-<span class="text-xs text-slate-400">Local : 13:14 WAT</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">Vent</span>
-<div class="flex items-center justify-between">
-<div class="text-2xl font-black text-slate-900 dark:text-slate-100">280° 05KT</div>
-<div class="size-8 rounded-full bg-primary/10 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary" style="transform: rotate(100deg)">navigation</span>
-</div>
-</div>
-<span class="text-xs text-slate-400">Direction : Ouest</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">Visibilité</span>
-<div class="text-2xl font-black text-slate-900 dark:text-slate-100">9999m</div>
-<div class="h-1 w-full bg-emerald-500 rounded-full mt-1"></div>
-<span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold">Excellent</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">Nuages</span>
-<div class="text-xl font-black text-slate-900 dark:text-slate-100 truncate">FEW018</div>
-<span class="text-xs text-slate-400">Quelques nuages à 1800 ft</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">Temp / Rosée</span>
-<div class="text-2xl font-black text-slate-900 dark:text-slate-100">31°C / 22°C</div>
-<span class="text-xs text-slate-400">Humidité : 58%</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">QNH</span>
-<div class="text-2xl font-black text-slate-900 dark:text-slate-100">1013 hPa</div>
-<span class="text-xs text-slate-400">Réglage altimètre</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">QFE</span>
-<div class="text-2xl font-black text-slate-900 dark:text-slate-100">1001 hPa</div>
-<span class="text-xs text-slate-400">Pression au niveau du sol</span>
-</div>
-<div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
-<span class="text-xs font-bold text-slate-500 uppercase">Condition</span>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-amber-500 text-3xl">wb_sunny</span>
-<div class="text-xl font-black text-slate-900 dark:text-slate-100">DÉGAGÉ</div>
-</div>
-<span class="text-xs text-slate-400">Aucun phénomène significatif</span>
-</div>
-</div>
-<div class="mt-2 bg-slate-900 dark:bg-black rounded-xl p-5 shadow-lg border border-slate-800 flex flex-col gap-4 text-white">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">warning</span>
-<h3 class="font-bold text-base uppercase tracking-wider">NOTAMs actifs</h3>
-</div>
-<div class="flex flex-col gap-3">
-<div class="border-l-2 border-primary pl-3 py-1">
-<p class="text-xs font-bold mb-1">A0124/24 - RWY 06/24 WIP</p>
-<p class="text-[11px] text-slate-400 leading-tight">Personnel et équipements sur le bord de la piste. Faire preuve de prudence lors des décollages/atterrissages.</p>
-</div>
-<div class="border-l-2 border-slate-700 pl-3 py-1">
-<p class="text-xs font-bold mb-1">A0120/24 - VOR FZA INOP</p>
-<p class="text-[11px] text-slate-400 leading-tight">Fréquence VOR 115.3MHz hors service pour maintenance programmée.</p>
-</div>
-</div>
-<button class="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold transition-colors">VOIR TOUS LES NOTAMs</button>
-</div>
+    <div class="grid grid-cols-2 gap-4">
+        <!-- Heure UTC -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">Heure UTC</span>
+            <div id="dashboard-utc-time" class="text-2xl font-black text-slate-900 dark:text-slate-100">--:--:--</div>
+            <span class="text-xs text-slate-400">Local : --:-- WAT</span>
+        </div>
+        
+        <!-- Vent -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">Vent</span>
+            <div class="flex items-center justify-between">
+                <div id="dashboard-wind" class="text-2xl font-black text-slate-900 dark:text-slate-100">--KT</div>
+                <div class="size-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary" style="transform: rotate(0deg)">navigation</span>
+                </div>
+            </div>
+            <span id="dashboard-wind-direction" class="text-xs text-slate-400">Direction : --</span>
+        </div>
+        
+        <!-- Visibilité -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">Visibilité</span>
+            <div id="dashboard-visibilite" class="text-2xl font-black text-slate-900 dark:text-slate-100">--m</div>
+            <div class="h-1 w-full bg-emerald-500 rounded-full mt-1"></div>
+            <span id="dashboard-visibilite-status" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold">En attente</span>
+        </div>
+        
+        <!-- Nuages -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">Nuages</span>
+            <div id="dashboard-nuages" class="text-xl font-black text-slate-900 dark:text-slate-100 truncate">--</div>
+            <span class="text-xs text-slate-400">Nébulosité</span>
+        </div>
+        
+        <!-- Temp / Rosée -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">Temp / Rosée</span>
+            <div id="dashboard-temp" class="text-2xl font-black text-slate-900 dark:text-slate-100">--°C / --°C</div>
+            <span id="dashboard-humidite" class="text-xs text-slate-400">Humidité : --%</span>
+        </div>
+        
+        <!-- QNH -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">QNH</span>
+            <div id="dashboard-qnh" class="text-2xl font-black text-slate-900 dark:text-slate-100">-- hPa</div>
+            <span class="text-xs text-slate-400">Réglage altimètre</span>
+        </div>
+        
+        <!-- QFE (AJOUTÉ) -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">QFE</span>
+            <div id="dashboard-qfe" class="text-2xl font-black text-slate-900 dark:text-slate-100">-- hPa</div>
+            <span class="text-xs text-slate-400">Pression au niveau du sol</span>
+        </div>
+        
+        <!-- Condition -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">Condition</span>
+            <div class="flex items-center gap-2">
+                <span id="dashboard-condition-icon" class="material-symbols-outlined text-amber-500 text-3xl">wb_sunny</span>
+                <div id="dashboard-condition" class="text-xl font-black text-slate-900 dark:text-slate-100">EN ATTENTE</div>
+            </div>
+            <span id="dashboard-phenomenes" class="text-xs text-slate-400">Aucun phénomène</span>
+        </div>
+        
+        <!-- Tendance (AJOUTÉ) -->
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-500 uppercase">Tendance</span>
+            <div id="dashboard-tendance" class="text-xl font-black text-slate-900 dark:text-slate-100">--</div>
+            <span class="text-xs text-slate-400">Évolution pression</span>
+        </div>
+    </div>
+    
+    <!-- NOTAMs -->
+    <div class="mt-2 bg-slate-900 dark:bg-black rounded-xl p-5 shadow-lg border border-slate-800 flex flex-col gap-4 text-white">
+        <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">warning</span>
+            <h3 class="font-bold text-base uppercase tracking-wider">NOTAMs actifs</h3>
+        </div>
+        <div class="flex flex-col gap-3">
+            <div class="border-l-2 border-primary pl-3 py-1">
+                <p class="text-xs font-bold mb-1">A0124/24 - RWY 06/24 WIP</p>
+                <p class="text-[11px] text-slate-400 leading-tight">Personnel et équipements sur le bord de la piste. Faire preuve de prudence lors des décollages/atterrissages.</p>
+            </div>
+            <div class="border-l-2 border-slate-700 pl-3 py-1">
+                <p class="text-xs font-bold mb-1">A0120/24 - VOR FZA INOP</p>
+                <p class="text-[11px] text-slate-400 leading-tight">Fréquence VOR 115.3MHz hors service pour maintenance programmée.</p>
+            </div>
+        </div>
+        <button class="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold transition-colors">VOIR TOUS LES NOTAMs</button>
+    </div>
 </div>
 </div>
 </main>
@@ -279,7 +303,7 @@
 </div>
 
 <script>
-// Mobile menu toggle: toggle, resize close, outside click
+// Mobile menu toggle
 (function(){
     const btn = document.getElementById('mobile-menu-button');
     const menu = document.getElementById('mobile-menu');
@@ -287,8 +311,7 @@
     btn.addEventListener('click', function(e){
         e.stopPropagation();
         menu.classList.toggle('hidden');
-        const isOpen = !menu.classList.contains('hidden');
-        btn.setAttribute('aria-expanded', String(isOpen));
+        btn.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
     });
     window.addEventListener('resize', function(){
         if(window.innerWidth >= 768 && !menu.classList.contains('hidden')){
@@ -304,6 +327,261 @@
         }
     });
 })();
+
+// ---------- FONCTIONS DASHBOARD ----------
+function chargerDonneesDashboard() {
+    try {
+        const rawData = localStorage.getItem('skymet_dashboard_data');
+        if (!rawData) {
+            console.log('📋 Aucune donnée dashboard trouvée');
+            return;
+        }
+        
+        const data = JSON.parse(rawData);
+        console.log('📊 Données dashboard chargées :', data);
+        
+        // Mettre à jour le METAR
+        const metarEl = document.getElementById('dashboard-metar');
+        if (metarEl && data.metar) {
+            metarEl.innerHTML = `<span class="text-primary font-bold">${data.icao}</span> ${data.metar.replace(data.icao + ' ', '').replace('=', '')} <span class="text-green-400">=</span>`;
+        }
+        
+        // Mettre à jour la condition
+        const badge = document.getElementById('dashboard-condition-badge');
+        if (badge) {
+            const visibilite = parseInt(data.visibilite) || 8000;
+            if (visibilite >= 8000) {
+                badge.textContent = 'VFR';
+                badge.className = 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 text-xs font-bold px-2 py-1 rounded';
+            } else if (visibilite >= 5000) {
+                badge.textContent = 'MVFR';
+                badge.className = 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-xs font-bold px-2 py-1 rounded';
+            } else if (visibilite >= 3000) {
+                badge.textContent = 'IFR';
+                badge.className = 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 text-xs font-bold px-2 py-1 rounded';
+            } else {
+                badge.textContent = 'LIFR';
+                badge.className = 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs font-bold px-2 py-1 rounded';
+            }
+        }
+        
+        // Mettre à jour l'heure
+        const timeEl = document.getElementById('dashboard-time');
+        if (timeEl && data.datetime) {
+            timeEl.textContent = data.datetime.replace('Z', ' UTC');
+        }
+        
+        // Mettre à jour l'heure UTC
+        const utcEl = document.getElementById('dashboard-utc-time');
+        if (utcEl) {
+            const now = new Date();
+            const utcStr = now.toISOString().slice(11, 19);
+            utcEl.textContent = utcStr;
+        }
+        
+        // Mettre à jour le vent
+        const windEl = document.getElementById('dashboard-wind');
+        if (windEl && data.vent) {
+            windEl.textContent = data.vent;
+        }
+        
+        // Mettre à jour la visibilité
+        const visEl = document.getElementById('dashboard-visibilite');
+        if (visEl && data.visibilite) {
+            visEl.textContent = data.visibilite + 'm';
+        }
+        const visStatus = document.getElementById('dashboard-visibilite-status');
+        if (visStatus) {
+            const vis = parseInt(data.visibilite) || 8000;
+            if (vis >= 8000) visStatus.textContent = 'Excellent';
+            else if (vis >= 5000) visStatus.textContent = 'Bon';
+            else if (vis >= 3000) visStatus.textContent = 'Moyen';
+            else visStatus.textContent = 'Mauvais';
+        }
+        
+        // Mettre à jour les nuages
+        const nuagesEl = document.getElementById('dashboard-nuages');
+        if (nuagesEl && data.nuages) {
+            nuagesEl.textContent = data.nuages;
+        }
+        
+        // Mettre à jour la température
+        const tempEl = document.getElementById('dashboard-temp');
+        if (tempEl) {
+            const temp = data.temperature || '--';
+            const td = data.pointRosee || '--';
+            tempEl.textContent = `${temp}°C / ${td}°C`;
+        }
+        
+        // Mettre à jour l'humidité
+        const humEl = document.getElementById('dashboard-humidite');
+        if (humEl && data.uu) {
+            humEl.textContent = `Humidité : ${data.uu}%`;
+        }
+        
+        // Mettre à jour QNH
+        const qnhEl = document.getElementById('dashboard-qnh');
+        if (qnhEl && data.qnh) {
+            qnhEl.textContent = data.qnh + ' hPa';
+        }
+        
+        // Mettre à jour QFE (AJOUTÉ)
+        const qfeEl = document.getElementById('dashboard-qfe');
+        if (qfeEl && data.qfe) {
+            qfeEl.textContent = data.qfe + ' hPa';
+        }
+        
+        // Mettre à jour la condition
+        const conditionEl = document.getElementById('dashboard-condition');
+        if (conditionEl) {
+            const phen = data.phenomenes || 'Aucun';
+            if (phen === 'TSRA') {
+                conditionEl.textContent = 'ORAGE / PLUIE';
+                document.getElementById('dashboard-condition-icon').textContent = 'thunderstorm';
+            } else if (phen === 'HZ') {
+                conditionEl.textContent = 'BRUME';
+                document.getElementById('dashboard-condition-icon').textContent = 'foggy';
+            } else if (phen === 'FG') {
+                conditionEl.textContent = 'BROUILLARD';
+                document.getElementById('dashboard-condition-icon').textContent = 'foggy';
+            } else {
+                conditionEl.textContent = 'DÉGAGÉ';
+                document.getElementById('dashboard-condition-icon').textContent = 'wb_sunny';
+            }
+        }
+        
+        // Mettre à jour les phénomènes
+        const phenEl = document.getElementById('dashboard-phenomenes');
+        if (phenEl && data.phenomenes) {
+            const phenMap = {
+                'TSRA': 'Orage avec pluie',
+                'HZ': 'Brume',
+                'FG': 'Brouillard',
+                'BR': 'Brume légère',
+                'RA': 'Pluie',
+                'DZ': 'Bruine',
+                'SN': 'Neige'
+            };
+            phenEl.textContent = phenMap[data.phenomenes] || data.phenomenes;
+        }
+        
+        // Mettre à jour la tendance (AJOUTÉ)
+        const tendanceEl = document.getElementById('dashboard-tendance');
+        if (tendanceEl && data.tendance) {
+            tendanceEl.textContent = data.tendance;
+            // Couleur selon tendance
+            const colors = {
+                'HAUSSE RAPIDE': 'text-green-500',
+                'HAUSSE LENTE': 'text-green-400',
+                'STABLE': 'text-yellow-500',
+                'BAISSE LENTE': 'text-red-400',
+                'BAISSE RAPIDE': 'text-red-500'
+            };
+            tendanceEl.className = `text-xl font-black ${colors[data.tendance] || 'text-slate-400'}`;
+        }
+        
+        // Mettre à jour l'heure de mise à jour
+        const updateEl = document.getElementById('dashboard-updated-time');
+        if (updateEl && data.timestamp) {
+            const now = new Date();
+            const then = new Date(data.timestamp);
+            const diff = Math.floor((now - then) / 60000);
+            updateEl.textContent = `Mis à jour il y a ${diff} min`;
+        }
+        
+    } catch(e) {
+        console.warn('⚠️ Erreur chargement dashboard:', e);
+    }
+}
+
+function rafraichirDashboard() {
+    chargerDonneesDashboard();
+    // Mettre à jour l'horloge
+    const utcEl = document.getElementById('dashboard-utc-time');
+    if (utcEl) {
+        const now = new Date();
+        utcEl.textContent = now.toISOString().slice(11, 19);
+    }
+    // Toast simple
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold';
+    toast.textContent = '🔄 Données rafraîchies';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+}
+
+// ---------- INITIALISATION ----------
+document.addEventListener('DOMContentLoaded', function() {
+    // Charger les données
+    setTimeout(chargerDonneesDashboard, 300);
+    
+    // Mettre à jour l'horloge toutes les secondes
+    setInterval(function() {
+        const utcEl = document.getElementById('dashboard-utc-time');
+        if (utcEl) {
+            const now = new Date();
+            utcEl.textContent = now.toISOString().slice(11, 19);
+        }
+    }, 1000);
+    
+    // Écouter les changements de localStorage
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'skymet_dashboard_data') {
+            chargerDonneesDashboard();
+        }
+    });
+});
+
+
+// ---------- FONCTIONS WINDY ----------
+function changerCoucheWindy(couche) {
+    const iframe = document.getElementById('windy-iframe');
+    if (!iframe) return;
+    
+    const baseUrl = 'https://embed.windy.com/embed2.html?lat=-4.385&lon=15.444&zoom=8&level=surface';
+    let overlay = 'wind';
+    let product = 'ecmwf';
+    
+    switch(couche) {
+        case 'wind':
+            overlay = 'wind';
+            product = 'ecmwf';
+            break;
+        case 'temp':
+            overlay = 'temp';
+            product = 'ecmwf';
+            break;
+        case 'rain':
+            overlay = 'rain';
+            product = 'ecmwf';
+            break;
+        case 'clouds':
+            overlay = 'clouds';
+            product = 'ecmwf';
+            break;
+        default:
+            overlay = 'wind';
+            product = 'ecmwf';
+    }
+    
+    const url = `${baseUrl}&overlay=${overlay}&product=${product}&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1`;
+    iframe.src = url;
+    
+    // Mettre à jour l'état des boutons
+    document.querySelectorAll('.flex.gap-2.flex-wrap button').forEach(btn => {
+        btn.className = 'text-xs font-medium px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors';
+    });
+    event.target.className = 'text-xs font-medium px-2 py-1 rounded bg-primary/10 text-primary hover:bg-primary/20 transition-colors';
+}
+
+// Initialiser Windy après chargement
+document.addEventListener('DOMContentLoaded', function() {
+    // Le chargement de Windy se fait automatiquement via l'iframe
+    console.log('🌤️ Windy intégré avec succès !');
+});
+
+console.log('✅ Dashboard chargé avec succès !');
 </script>
 
-</body></html>
+</body>
+</html>
